@@ -6,7 +6,7 @@ import Navigation from 'components/Navigation';
 import Profile from 'routes/Profile';
 import { Redirect } from 'react-router';
 
-const AppRouter = ({ isLoggedIn }) => {
+const AppRouter = ({ isLoggedIn, userObj }) => {
   return (
     <Router>
       {isLoggedIn && <Navigation />}
@@ -14,7 +14,8 @@ const AppRouter = ({ isLoggedIn }) => {
         {isLoggedIn ? (
           <>
             <Route exact path="/">
-              <Home />
+              {/* App에서 받은 prop 다시 전달 */}
+              <Home userObj={userObj} />
             </Route>
             <Route exact path="/profile">
               <Profile />
