@@ -24,12 +24,7 @@ function App() {
       setInit(true);
     });
   }, []);
-  return (
-    <>
-      {init ? <AppRouter isLoggedIn={isLoggedIn} userObj={userObj} /> : 'Init'}
-      <footer>&copy; {new Date().getFullYear()} Ntweety</footer>
-    </>
-  );
+  return <>{init ? <AppRouter isLoggedIn={isLoggedIn} userObj={userObj} /> : 'Init'}</>;
 }
 
 export default App;
