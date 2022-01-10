@@ -1,8 +1,8 @@
 import { dbService, storageService } from 'fbase';
 import { getDocs, addDoc, collection, getFirestore, onSnapshot, orderBy, query, where, serverTimestamp } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Tweety from 'components/Tweety';
-import { v4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { ref, uploadString } from '@firebase/storage';
 
 const Home = ({ userObj }) => {
@@ -29,7 +29,7 @@ const Home = ({ userObj }) => {
   // 트윗 작성, firestore에 전송
   const onSubmit = async (e) => {
     e.preventDefault();
-    const fileRef = ref(storageService, `${userObj.uid}/${v4()}`);
+    const fileRef = ref(storageService, `${userObj.uid}/${uuidv4()}`);
     const response = await uploadString(fileRef, attachment, 'data_url');
     console.log(response);
     // uuid는 어떤 특별한 식별자를 랜덤으로 생성해줌
@@ -42,7 +42,8 @@ const Home = ({ userObj }) => {
     // });
     // setTweet('');
   };
-
+  // clear 후에도 파일이름 남아있음
+  const fileInput = useRef();
   const onChange = (event) => {
     // event 안에 있는 target 안에 있는 value를 줘라
     const {
@@ -68,13 +69,16 @@ const Home = ({ userObj }) => {
     };
     reader.readAsDataURL(theFile);
   };
-  const onClearAttachment = () => setAttachment(null);
+  const onClearAttachment = () => {
+    setAttachment(null);
+    fileInput.current.value = null;
+  };
   return (
     <div>
       <form onSubmit={onSubmit}>
         <input value={tweet} onChange={onChange} type="text" placeholder="tweet tweet!" maxLength={120}></input>
         {/* 사진 올리기 */}
-        <input type="file" accept="image/*" onChange={onFileChange} />
+        <input type="file" accept="image/*" onChange={onFileChange} ref={fileInput} />
         <input type="submit" value="Tweet" />
 
         {/* 미리보기사진(있다면) */}
