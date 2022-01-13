@@ -1,5 +1,5 @@
 import { dbService, storageService } from 'fbase';
-import { getDocs, addDoc, collection, getFirestore, onSnapshot, orderBy, query, where, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import React, { useEffect, useState, useRef } from 'react';
 import Tweety from 'components/Tweety';
 import { v4 as uuidv4 } from 'uuid';
@@ -8,7 +8,7 @@ import { ref, uploadString } from '@firebase/storage';
 const Home = ({ userObj }) => {
   const [tweet, setTweet] = useState('');
   const [tweets, setTweets] = useState([]);
-  const [attachment, setAttachment] = useState();
+  const [attachment, setAttachment] = useState('');
 
   // 마운트되면 실행
   useEffect(() => {
@@ -29,18 +29,27 @@ const Home = ({ userObj }) => {
   // 트윗 작성, firestore에 전송
   const onSubmit = async (e) => {
     e.preventDefault();
-    const fileRef = ref(storageService, `${userObj.uid}/${uuidv4()}`);
-    const response = await uploadString(fileRef, attachment, 'data_url');
-    console.log(response);
-    // uuid는 어떤 특별한 식별자를 랜덤으로 생성해줌
-    // await addDoc(collection(dbService, 'tweets'), {
-    //   // tweet는 state인 tweet의 value이다.
-    //   text: tweet,
-    //   createdAt: Date.now(),
-    //   // update, delete 위해서는 작성자 알아야함
-    //   creatorId: userObj.uid,
-    // });
-    // setTweet('');
+    let attachmentUrl = '';
+    if (attachment !== '') {
+      //파일 경로 참조 만들기
+      const fileRef = ref(storageService, `${userObj.uid}/${uuidv4()}`);
+      //storage 참조 경로로 파일 업로드 하기
+      const uploadFile = await uploadString(fileRef, attachment, 'data_url');
+      console.log(uploadFile);
+      //storage에 있는 파일 URL로 다운로드 받기
+      attachmentUrl = await ref.getDownloadURL(uploadFile.ref);
+    }
+    const tweetObj = {
+      // uuid는 어떤 특별한 식별자를 랜덤으로 생성해줌
+      text: tweet,
+      createdAt: Date.now(),
+      creatorId: userObj.uid,
+      attachmentUrl,
+    };
+
+    await addDoc(collection(dbService, 'tweets'), tweetObj);
+    setTweet('');
+    setAttachment('');
   };
   // clear 후에도 파일이름 남아있음
   const fileInput = useRef();
