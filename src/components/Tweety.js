@@ -1,6 +1,7 @@
-import { dbService } from 'fbase';
+import { dbService, storageService } from 'fbase';
 import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
 import React, { useState } from 'react';
+import { deleteObject, ref } from '@firebase/storage';
 
 const Tweety = ({ tweetObj, isOwner }) => {
   // edit 모드인지
@@ -12,8 +13,9 @@ const Tweety = ({ tweetObj, isOwner }) => {
     const ok = window.confirm('Are you sure');
     if (ok) {
       // delete
-      const TweetTextRef = doc(dbService, 'tweets', `${tweetObj.id}`);
-      await deleteDoc(TweetTextRef);
+      await deleteDoc(doc(dbService, 'tweets', `${tweetObj.id}`));
+      // await deleteDoc(TweetTextRef);
+      await deleteObject(ref(storageService, tweetObj.attachmentUrl));
     }
   };
   const toggleEditing = () => setEditing((prev) => !prev);
@@ -42,6 +44,7 @@ const Tweety = ({ tweetObj, isOwner }) => {
       ) : (
         <>
           <h4>{tweetObj.text}</h4>
+          {tweetObj.attachmentUrl && <img src={tweetObj.attachmentUrl} width="50px" height="50px" />}
           {/* 글의 주인일 때만 버튼 보이게 */}
           {isOwner && (
             <>
