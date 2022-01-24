@@ -3,7 +3,7 @@ import { addDoc, collection, onSnapshot, orderBy, query } from 'firebase/firesto
 import React, { useEffect, useState, useRef } from 'react';
 import Tweety from 'components/Tweety';
 import { v4 as uuidv4 } from 'uuid';
-import { ref, uploadString } from '@firebase/storage';
+import { ref, uploadString, getDownloadURL } from '@firebase/storage';
 
 const Home = ({ userObj }) => {
   const [tweet, setTweet] = useState('');
@@ -36,8 +36,8 @@ const Home = ({ userObj }) => {
       //storage 참조 경로로 파일 업로드 하기
       const uploadFile = await uploadString(fileRef, attachment, 'data_url');
       console.log(uploadFile);
-      //storage에 있는 파일 URL로 다운로드 받기
-      attachmentUrl = await ref.getDownloadURL(uploadFile.ref);
+      //storage에 있는 파일 URL로 다운로드 받기 ref 만 어떻게 잘해보자
+      attachmentUrl = await getDownloadURL(uploadFile.ref);
     }
     const tweetObj = {
       // uuid는 어떤 특별한 식별자를 랜덤으로 생성해줌
