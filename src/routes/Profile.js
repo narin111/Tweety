@@ -1,7 +1,7 @@
-import { signOut } from 'firebase/auth';
+// import { signOut } from 'firebase/auth';
 import React, { useEffect } from 'react';
 import { authService, dbService } from 'fbase';
-import { useHistory, useNavigate } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { collection, getDocs, query, where } from '@firebase/firestore';
 
 // 로그아웃하면 home으로 돌아가도록
