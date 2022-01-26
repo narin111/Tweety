@@ -18,6 +18,7 @@ function App() {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setUserObj({
+          // userObj 간소화 - 필요한 정보만 가져오기
           displayName: user.displayName,
           uid: user.uid,
           updateProfile: (args) =>

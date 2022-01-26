@@ -1,9 +1,8 @@
 // import { signOut } from 'firebase/auth';
-import React, { useEffect, useState } from 'react';
-import { authService, dbService } from 'fbase';
+import React, { useState } from 'react';
+import { authService } from 'fbase';
 import { useHistory } from 'react-router-dom';
-// import { collection, getDocs, query, where } from '@firebase/firestore';
-import { getAuth, updateProfile } from '@firebase/auth';
+import { updateProfile } from '@firebase/auth';
 
 // 로그아웃하면 home으로 돌아가도록
 // v6에서는 Redirect 사용 못 함
