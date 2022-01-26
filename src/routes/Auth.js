@@ -1,6 +1,12 @@
-import { authService, firebaseInstance } from 'fbase';
+import { authService } from 'fbase';
 import React, { useState } from 'react';
-import { createUserWithEmailAndPassword, GithubAuthProvider, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  GithubAuthProvider,
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from 'firebase/auth';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
@@ -22,7 +28,11 @@ const Auth = () => {
     try {
       let data;
       if (newAccount) {
-        data = await createUserWithEmailAndPassword(authService, email, password);
+        data = await createUserWithEmailAndPassword(
+          authService,
+          email,
+          password
+        );
       } else {
         data = await signInWithEmailAndPassword(authService, email, password);
       }
@@ -71,12 +81,32 @@ const Auth = () => {
     <div>
       <form onSubmit={onSubmit}>
         {/*value는 state*/}
-        <input name="email" type="text" placeholder="Email" required value={email} onChange={onChange} />
-        <input name="password" type="password" placeholder="Password" required value={password} onChange={onChange} />
-        <input type="submit" value="log in" value={newAccount ? 'Create Account' : 'Log In'} />
+        <input
+          name="email"
+          type="text"
+          placeholder="Email"
+          required
+          value={email}
+          onChange={onChange}
+        />
+        <input
+          name="password"
+          type="password"
+          placeholder="Password"
+          required
+          value={password}
+          onChange={onChange}
+        />
+        <input
+          type="submit"
+          value="log in"
+          value={newAccount ? 'Create Account' : 'Log In'}
+        />
         {error}
       </form>
-      <span onClick={toggleAccount}>{newAccount ? 'sign in' : 'create account'}</span>
+      <span onClick={toggleAccount}>
+        {newAccount ? 'sign in' : 'create account'}
+      </span>
       <div>
         <button name="google" onClick={onSocialClick}>
           Continue with Google
