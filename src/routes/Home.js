@@ -3,6 +3,7 @@ import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import Tweety from 'components/Tweety';
 import TweetFactory from 'components/TweetFactory';
+import '../styles.css';
 
 const Home = ({ userObj }) => {
   const [tweets, setTweets] = useState([]);
@@ -29,9 +30,9 @@ const Home = ({ userObj }) => {
   // 트윗 작성, firestore에 전송
 
   return (
-    <div>
+    <div className="container">
       <TweetFactory userObj={userObj} />
-      <div>
+      <div style={{ marginTop: 30 }}>
         {tweets.map((tweet) => (
           // key 빼먹지 않기
           // userObj에는 현재 로그인 유저 정보 담겨있음

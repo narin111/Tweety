@@ -7,6 +7,14 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
 } from 'firebase/auth';
+import '../styles.css';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faTwitter,
+  faGoogle,
+  faGithub,
+} from '@fortawesome/free-brands-svg-icons';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
@@ -44,18 +52,7 @@ const Auth = () => {
   };
   // newAccount의 이전 값을 가져와서 반대값을 리턴한다.
   const toggleAccount = () => setNewAccount((prev) => !prev);
-  // const onSocialClick = async (event) => {
-  //   const {
-  //     target: { name },
-  //   } = event;
-  //   let provider;
-  //   if (name === 'google') {
-  //     provider = new GoogleAuthProvider();
-  //   } else if (name === 'github') {
-  //     provider = new GithubAuthProvider();
-  //   }
-  //   await signInWithPopup(provider);
-  // };
+
   const onSocialClick = async (event) => {
     const {
       target: { name },
@@ -78,8 +75,14 @@ const Auth = () => {
     }
   };
   return (
-    <div>
-      <form onSubmit={onSubmit}>
+    <div className="authContainer">
+      <FontAwesomeIcon
+        icon={faTwitter}
+        color={'#04AAFF'}
+        size="3x"
+        style={{ marginBottom: 30 }}
+      />
+      <form onSubmit={onSubmit} className="container">
         {/*value는 state*/}
         <input
           name="email"
@@ -88,6 +91,7 @@ const Auth = () => {
           required
           value={email}
           onChange={onChange}
+          className="authInput"
         />
         <input
           name="password"
@@ -96,23 +100,24 @@ const Auth = () => {
           required
           value={password}
           onChange={onChange}
+          className="authInput"
         />
         <input
           type="submit"
-          value="log in"
+          className="authInput authSubmit"
           value={newAccount ? 'Create Account' : 'Log In'}
         />
-        {error}
+        {error && <span className="authError">{error}</span>}
       </form>
-      <span onClick={toggleAccount}>
+      <span onClick={toggleAccount} className="authSwitch">
         {newAccount ? 'sign in' : 'create account'}
       </span>
-      <div>
-        <button name="google" onClick={onSocialClick}>
-          Continue with Google
+      <div className="authBtns">
+        <button name="google" onClick={onSocialClick} className="authBtn">
+          Continue with Google <FontAwesomeIcon icon={faGoogle} />
         </button>
-        <button name="github" onClick={onSocialClick}>
-          Continue with Github
+        <button name="github" onClick={onSocialClick} className="authBtn">
+          Continue with Github <FontAwesomeIcon icon={faGithub} />
         </button>
       </div>
     </div>

@@ -2,6 +2,8 @@ import { dbService, storageService } from 'fbase';
 import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
 import React, { useState } from 'react';
 import { deleteObject, ref } from '@firebase/storage';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 
 const Tweety = ({ tweetObj, isOwner }) => {
   // edit 모드인지
@@ -32,24 +34,38 @@ const Tweety = ({ tweetObj, isOwner }) => {
     setNewTweet(value);
   };
   return (
-    <div>
+    <div className="nweet">
       {editing ? (
         <>
-          <form onSubmit={onSubmit}>
-            <input type="text" placeholder="Edit" value={newTweet} required onChange={onChange} />
-            <input type="submit" value="Update Tweet" />
+          <form onSubmit={onSubmit} className="container nweetEdit">
+            <input
+              type="text"
+              placeholder="Edit"
+              value={newTweet}
+              required
+              onChange={onChange}
+            />
+            <input type="submit" value="Update Tweet" className="formBtn" />
           </form>
-          <button onClick={toggleEditing}>Cancel</button>
+          <span onClick={toggleEditing} className="formBtn cancelBtn">
+            Cancel
+          </span>
         </>
       ) : (
         <>
           <h4>{tweetObj.text}</h4>
-          {tweetObj.attachmentUrl && <img src={tweetObj.attachmentUrl} width="50px" height="50px" />}
+          {tweetObj.attachmentUrl && <img src={tweetObj.attachmentUrl} />}
           {/* 글의 주인일 때만 버튼 보이게 */}
           {isOwner && (
             <>
-              <button onClick={onDeleteClick}>Delete 🗑</button>
-              <button onClick={toggleEditing}>Edit 🛠</button>
+              <div class="nweet__actions">
+                <span onClick={onDeleteClick}>
+                  <FontAwesomeIcon icon={faTrash} />
+                </span>
+                <span onClick={toggleEditing}>
+                  <FontAwesomeIcon icon={faPencilAlt} />
+                </span>
+              </div>
             </>
           )}
         </>

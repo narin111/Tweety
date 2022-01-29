@@ -4,6 +4,7 @@ import './index.css';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
 import firebase from 'firebase/compat/app';
+import './styles.css';
 console.log(firebase);
 
 ReactDOM.render(

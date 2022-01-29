@@ -3,6 +3,8 @@ import { dbService, storageService } from 'fbase';
 import { v4 as uuidv4 } from 'uuid';
 import { ref, uploadString, getDownloadURL } from '@firebase/storage';
 import { addDoc, collection } from 'firebase/firestore';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const TweetFactory = ({ userObj }) => {
   const [tweet, setTweet] = useState('');
@@ -63,28 +65,47 @@ const TweetFactory = ({ userObj }) => {
     fileInput.current.value = null;
   };
   return (
-    <form onSubmit={onSubmit}>
-      <input
-        value={tweet}
-        onChange={onChange}
-        type="text"
-        placeholder="tweet tweet!"
-        maxLength={120}
-      ></input>
+    <form onSubmit={onSubmit} className="factoryForm">
+      <div className="factoryInput__container">
+        <input
+          className="factoryInput__input"
+          value={tweet}
+          onChange={onChange}
+          type="text"
+          placeholder="write your mood"
+          maxLength={120}
+        />
+        <input type="submit" value="&rarr;" className="factoryInput__arrow" />
+      </div>
+      <label for="attach-file" className="factoryInput__label">
+        <span>Add photos</span>
+        <FontAwesomeIcon icon={faPlus} />
+      </label>
+
       {/* 사진 올리기 */}
       <input
+        id="attach-file"
         type="file"
         accept="image/*"
         onChange={onFileChange}
-        ref={fileInput}
+        style={{
+          opacity: 0,
+        }}
       />
-      <input type="submit" value="Tweet" />
 
       {/* 미리보기사진(있다면) */}
       {attachment && (
-        <div>
-          <img src={attachment} width="50px" height="50px" />
-          <button onClick={onClearAttachment}>Clear</button>
+        <div className="factoryForm__attachment">
+          <img
+            src={attachment}
+            style={{
+              backgroundImage: attachment,
+            }}
+          />
+          <div className="factoryForm__clear" onClick={onClearAttachment}>
+            <span>Remove</span>
+            <FontAwesomeIcon icon={faTimes} />
+          </div>
         </div>
       )}
     </form>

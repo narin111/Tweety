@@ -13,14 +13,25 @@ const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => {
       <Switch>
         {isLoggedIn ? (
           <>
-            <Route exact path="/">
-              {/* App에서 받은 prop 다시 전달 */}
-              <Home userObj={userObj} />
-            </Route>
-            <Route exact path="/profile">
-              <Profile userObj={userObj} refreshUser={refreshUser} />
-            </Route>
-            <Redirect from="*" to="/" />
+            <div
+              style={{
+                maxWidth: 890,
+                width: '100%',
+                margin: '0 auto',
+                marginTop: 80,
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
+              <Route exact path="/">
+                {/* App에서 받은 prop 다시 전달 */}
+                <Home userObj={userObj} />
+              </Route>
+              <Route exact path="/profile">
+                <Profile userObj={userObj} refreshUser={refreshUser} />
+              </Route>
+              <Redirect from="*" to="/" />
+            </div>
           </>
         ) : (
           <>
