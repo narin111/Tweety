@@ -10,6 +10,8 @@ import {
 import '../styles.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFeather } from '@fortawesome/free-solid-svg-icons';
+
 import {
   faTwitter,
   faGoogle,
@@ -77,11 +79,12 @@ const Auth = () => {
   return (
     <div className="authContainer">
       <FontAwesomeIcon
-        icon={faTwitter}
-        color={'#04AAFF'}
+        icon={faFeather}
+        color={'#678983'}
         size="3x"
-        style={{ marginBottom: 30 }}
+        style={{ marginBottom: 20 }}
       />
+      <div style={{ marginBottom: 30, color: '#678983' }}>Tweety!</div>
       <form onSubmit={onSubmit} className="container">
         {/*value는 state*/}
         <input
